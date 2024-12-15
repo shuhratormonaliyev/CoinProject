@@ -166,11 +166,11 @@ export default function CryptoValutes() {
               <div className="overflow-x-auto">
                 <table className="table table-zebra">
                   <thead>
-                    <tr className="text-gray-400 border-blue-900/20">
-                      <th>Coin</th>
-                      <th>Price</th>
-                      <th className="w-48">24h Change</th>
-                      <th>Market Cap</th>
+                    <tr className="text-gray-400 border-blue-900/20 bg-[#87CEEB]">
+                      <th className='text-black'>Coin</th>
+                      <th className='text-black'>Price</th>
+                      <th className="w-48 text-black">24h Change</th>
+                      <th className='text-black'>Market Cap</th>
                     </tr>
                   </thead>
                   <tbody>
