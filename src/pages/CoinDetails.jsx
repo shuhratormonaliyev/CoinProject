@@ -50,7 +50,7 @@ const CryptoDetail = ({ currency = "INR" }) => {
       setChartData(formatChartData(marketChartData.prices, timeframe));
       setLoading(false);
     } catch (error) {
-      console.error("Error fetching coin data:", error);
+      console.error("Plase wait...", error);
       setLoading(false);
     }
   };
