@@ -23,7 +23,7 @@ ChartJS.register(
 );
 
 const CryptoDetail = () => {
-  const [coinData, setCoinData] = useState(null);
+  const [coinData, setCoinData] = useState();
   const [chartData, setChartData] = useState({ datasets: [{ data: [] }] });
   const [loading, setLoading] = useState(true);
   const [timeframe, setTimeframe] = useState("24 Hours");
@@ -37,38 +37,37 @@ const CryptoDetail = () => {
 
   const fetchCoinData = async () => {
     setLoading(true);
+  
     try {
-      const [coinResponse, marketChartResponse] = await Promise.all([
-        fetch(`https://api.coingecko.com/api/v3/coins/${coinId}`),
-        fetch(
-          `https://api.coingecko.com/api/v3/coins/${coinId}/market_chart?vs_currency=${currency.toLowerCase()}&days=${getTimeframeDays(
-            timeframe
-          )}`
-        ),
-      ]);
-
+      const coinUrl = `https://api.coingecko.com/api/v3/coins/${coinId}`;
+      const marketChartUrl = `https://api.coingecko.com/api/v3/coins/${coinId}/market_chart?vs_currency=${currency.toLowerCase()}&days=${getTimeframeDays(timeframe)}`;
+  
+      const coinResponse = await fetch(coinUrl);
+      const marketChartResponse = await fetch(marketChartUrl);
+  
       if (!coinResponse.ok || !marketChartResponse.ok) {
-        throw new Error("Error Api");
+        throw new Error("API sorovlarida xatolik!");
       }
-
+  
       const coinData = await coinResponse.json();
       const marketChartData = await marketChartResponse.json();
-
+  
       if (!coinData || !marketChartData || !marketChartData.prices) {
-        throw new Error("xatoliklar");
+        throw new Error("Malumot toliq emas!");
       }
-
+  
       setCoinData(coinData);
       setChartData(formatChartData(marketChartData.prices, timeframe));
     } catch (error) {
-      console.error("Error fetch data", error);
-      setCoinData(null);
+      console.error("Xatolik yuz berdi:", error);
+  
+      setCoinData();
       setChartData({ datasets: [{ data: [] }] });
     } finally {
       setLoading(false);
     }
   };
-
+  
   const getTimeframeDays = (timeframe) => {
     switch (timeframe) {
       case "24 Hours":
